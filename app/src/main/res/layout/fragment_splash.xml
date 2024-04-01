@@ -4,13 +4,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
-    android:background="@color/colo_default"
     tools:context=".ui.SplashFragment">
 
     <ImageView
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:src="@drawable/ic_check_logo_24"
-        />
+        android:contentDescription="@string/app_name" />
 
 </LinearLayout>
