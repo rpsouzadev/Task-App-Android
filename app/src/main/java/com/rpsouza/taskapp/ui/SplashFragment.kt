@@ -1,10 +1,13 @@
 package com.rpsouza.taskapp.ui
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import com.rpsouza.taskapp.R
 import com.rpsouza.taskapp.databinding.FragmentSplashBinding
 
@@ -19,6 +22,16 @@ class SplashFragment : Fragment() {
     ): View {
        _binding = FragmentSplashBinding.inflate(inflater, container, false)
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        Handler(Looper.getMainLooper()).postDelayed(this::checkAuth, 3000)
+    }
+
+    private fun checkAuth() {
+        findNavController().navigate(R.id.action_splashFragment_to_authentication)
     }
 
     override fun onDestroyView() {
