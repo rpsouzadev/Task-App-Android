@@ -29,14 +29,19 @@ class LoginFragment : Fragment() {
     }
 
     private fun initListeners() {
-        binding.BtnRegister.setOnClickListener {
+        binding.btnRegister.setOnClickListener {
             findNavController()
                 .navigate(R.id.action_loginFragment_to_registerFragment)
         }
 
-        binding.BtnRecover.setOnClickListener {
+        binding.btnRecover.setOnClickListener {
             findNavController()
                 .navigate(R.id.action_loginFragment_to_recoverAccountFragment)
+        }
+
+        binding.btnLogin.setOnClickListener {
+            findNavController()
+                .navigate(R.id.action_global_homeFragment)
         }
     }
 

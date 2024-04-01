@@ -50,6 +50,7 @@
             android:padding="12dp" />
 
         <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnLogin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
@@ -65,7 +66,7 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/BtnRegister"
+                android:id="@+id/btnRegister"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -73,7 +74,7 @@
                 android:textColor="@color/white" />
 
             <TextView
-                android:id="@+id/BtnRecover"
+                android:id="@+id/btnRecover"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
