@@ -48,11 +48,11 @@ class RegisterFragment : Fragment() {
                     requireContext(), "Tudo certo.", Toast.LENGTH_SHORT
                 ).show()
             } else {
-                showBottomSheet(message = R.string.password_empty)
+                showBottomSheet(message = getString(R.string.password_empty))
             }
 
         } else {
-            showBottomSheet(message = R.string.email_empty)
+            showBottomSheet(message = getString(R.string.email_empty))
         }
     }
     override fun onDestroyView() {

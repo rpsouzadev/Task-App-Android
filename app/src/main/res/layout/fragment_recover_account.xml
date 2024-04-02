@@ -60,10 +60,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:background="@drawable/bg_edit_text"
                 android:hint="Digite seu e-mail"
                 android:inputType="textEmailAddress"
-                android:padding="12dp" />
+                style="@style/EditTextTheme" />
 
 
             <com.google.android.material.button.MaterialButton
@@ -71,10 +70,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:background="@drawable/bg_button"
                 android:text="Enviar"
-                android:textColor="@color/color_default"
-                app:backgroundTint="@null" />
+                style="@style/ButtonTheme" />
 
             <ProgressBar
                 android:id="@+id/progressBar"
