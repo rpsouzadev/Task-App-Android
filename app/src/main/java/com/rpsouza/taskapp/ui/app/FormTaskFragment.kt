@@ -5,13 +5,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.fragment.findNavController
-import com.rpsouza.taskapp.R
-import com.rpsouza.taskapp.databinding.FragmentHomeBinding
-import com.rpsouza.taskapp.databinding.FragmentTodoBinding
+import com.rpsouza.taskapp.databinding.FragmentFormTaskBinding
 
-class TodoFragment : Fragment() {
-    private var _binding: FragmentTodoBinding? = null
+class FormTaskFragment : Fragment() {
+    private var _binding: FragmentFormTaskBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -19,20 +16,13 @@ class TodoFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentTodoBinding.inflate(inflater, container, false)
+        _binding = FragmentFormTaskBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        initListener()
-    }
-
-    private fun initListener() {
-        binding.floatingActionButton.setOnClickListener {
-            findNavController().navigate(R.id.action_homeFragment_to_formTaskFragment)
-        }
     }
 
 
