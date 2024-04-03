@@ -26,11 +26,9 @@ class TaskAdapter(private val taskList: List<Task>) :
     }
 
     override fun getItemCount(): Int {
-        taskList.size
+        return taskList.size
     }
 
 
-    inner class MyViewHolder(val binding: ItemTaskBinding) : RecyclerView.ViewHolder(binding.root) {
-
-    }
+    inner class MyViewHolder(val binding: ItemTaskBinding) : RecyclerView.ViewHolder(binding.root)
 }

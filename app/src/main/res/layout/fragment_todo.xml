@@ -6,16 +6,29 @@
     android:layout_height="match_parent"
     tools:context=".ui.app.TodoFragment">
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvTasks"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:listitem="@layout/item_task"
+        tools:itemCount="3"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.5" />
+
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/floatingActionButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
+        android:contentDescription="@string/btn_new_task"
         android:src="@drawable/ic_add_24"
         app:backgroundTint="@color/white"
-        app:tint="@color/color_default"
-        android:contentDescription="@string/btn_new_task"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:tint="@color/color_default" />
 </androidx.constraintlayout.widget.ConstraintLayout>
