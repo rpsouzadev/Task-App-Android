@@ -35,4 +35,6 @@
     <string name="btn_remove">Remover</string>
     <string name="btn_edit">Editar</string>
     <string name="btn_details">Detalhes</string>
+    <string name="move_next_status">Mover para o proximo status</string>
+    <string name="move_previous_status">Voltar para o status anterio</string>
 </resources>

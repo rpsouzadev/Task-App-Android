@@ -5,11 +5,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.rpsouza.taskapp.R
 import com.rpsouza.taskapp.data.model.Status
 import com.rpsouza.taskapp.data.model.Task
-import com.rpsouza.taskapp.databinding.FragmentDoingBinding
 import com.rpsouza.taskapp.databinding.FragmentDoneBinding
 import com.rpsouza.taskapp.ui.adapter.TaskAdapter
 
@@ -34,11 +33,49 @@ class DoneFragment : Fragment() {
     }
 
     private fun initRecyclerView(taskList: List<Task>) {
-        taskAdapter = TaskAdapter(requireContext(), taskList)
+        taskAdapter = TaskAdapter(requireContext(), taskList) { task, option ->
+            optionSelected(task, option)
+        }
 
         binding.rvTasks.layoutManager = LinearLayoutManager(requireContext())
         binding.rvTasks.setHasFixedSize(true)
         binding.rvTasks.adapter = taskAdapter
+    }
+
+    private fun optionSelected(task: Task, option: Int) {
+        when (option) {
+            TaskAdapter.SELECT_DETAILS -> {
+                Toast.makeText(
+                    requireContext(),
+                    "Detalhes da task: ${task.id}",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+
+            TaskAdapter.SELECT_EDIT -> {
+                Toast.makeText(
+                    requireContext(),
+                    "Editar task: ${task.id}",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+
+            TaskAdapter.SELECT_REMOVE -> {
+                Toast.makeText(
+                    requireContext(),
+                    "Remover task: ${task.id}",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+
+            TaskAdapter.SELECT_BACK -> {
+                Toast.makeText(
+                    requireContext(),
+                    "Voltar task: ${task.id}",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
     }
 
     private fun getTasks(): List<Task> {
