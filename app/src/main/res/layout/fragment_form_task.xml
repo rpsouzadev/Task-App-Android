@@ -42,7 +42,7 @@
                 android:id="@+id/textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Descrição"
+                android:text="@string/description"
                 android:textColor="@color/white"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -52,19 +52,20 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:hint="Estudar kotlin"
+                android:hint="@string/task_hint"
                 android:inputType="textEmailAddress"
                 style="@style/EditTextTheme"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView" />
+                app:layout_constraintTop_toBottomOf="@+id/textView"
+                android:autofillHints="" />
 
             <TextView
                 android:id="@+id/textView2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="Status"
+                android:text="@string/status"
                 android:textColor="@color/white"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/editDescription" />
@@ -86,7 +87,7 @@
                     android:layout_weight="1"
                     android:buttonTint="@color/white"
                     android:checked="true"
-                    android:text="A Fazer"
+                    android:text="@string/task_todo"
                     android:textColor="@color/white" />
 
                 <RadioButton
@@ -95,7 +96,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:buttonTint="@color/white"
-                    android:text="Fazendo"
+                    android:text="@string/task_doing"
                     android:textColor="@color/white" />
 
                 <RadioButton
@@ -104,7 +105,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:buttonTint="@color/white"
-                    android:text="Feito"
+                    android:text="@string/task_done"
                     android:textColor="@color/white" />
 
             </RadioGroup>
@@ -114,7 +115,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="Salvar"
+                android:text="@string/save"
                 style="@style/ButtonTheme"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"

@@ -15,7 +15,7 @@
         android:src="@drawable/ic_add_24"
         app:backgroundTint="@color/white"
         app:tint="@color/color_default"
-        android:contentDescription="Botão adicionar nova task"
+        android:contentDescription="@string/btn_new_task"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -9,9 +9,30 @@
     <!--    Generic-->
     <string name="text_title_warning">Atenção</string>
     <string name="text_button_warning">Entendi</string>
+    <string name="email_text">E-mail</string>
+    <string name="email_hint">Digite seu e-mail</string>
     <string name="email_empty">Digite o email</string>
+    <string name="password_text">Senha</string>
     <string name="password_empty">Digite a senha</string>
+    <string name="password_hint">Digite sua senha</string>
 
     <!--    Form Task Fragment-->
     <string name="description_empty_form_task_fragment">Digite sua tarefa.</string>
+    <string name="btn_Login">Entrar</string>
+    <string name="create_account">Criar conta</string>
+    <string name="forgot_password">Esqueceu a senha?</string>
+    <string name="description">Descrição</string>
+    <string name="task_hint">Estudar kotlin</string>
+    <string name="status">Status</string>
+    <string name="task_todo">A Fazer</string>
+    <string name="task_doing">Fazendo</string>
+    <string name="task_done">Feito</string>
+    <string name="save">Salvar</string>
+    <string name="send">Enviar</string>
+    <string name="description_recover_account">Digite seu e-mail abaixo para receber as \ninstruções para recuperação da conta.</string>
+    <string name="recover_account">Recuperar conta</string>
+    <string name="btn_new_task">Botão adicionar nova task</string>
+    <string name="btn_remove">Remover</string>
+    <string name="btn_edit">Editar</string>
+    <string name="btn_details">Detalhes</string>
 </resources>

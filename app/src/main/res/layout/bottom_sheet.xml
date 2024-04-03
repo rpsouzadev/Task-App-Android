@@ -28,7 +28,7 @@
         android:layout_marginTop="16dp"
         android:textAlignment="center"
         android:textColor="@color/black"
-        tools:text="Atenção" />
+        tools:text="@string/text_title_warning" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnOk"
