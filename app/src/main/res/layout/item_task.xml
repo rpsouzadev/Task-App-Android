@@ -32,9 +32,9 @@
                 tools:text="Criar layoutda tela de login do app" />
 
             <ImageButton
-                android:id="@+id/btnNext"
+                android:id="@+id/btnBack"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:background="@android:color/transparent"
                 android:src="@drawable/ic_arrow_back_24"
                 app:layout_constraintBottom_toBottomOf="@+id/btnEdit"
@@ -44,8 +44,8 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnDelete"
-                android:layout_width="wrap_content"
                 style="@style/ButtonTaskTheme"
+                android:layout_width="wrap_content"
                 android:text="@string/btn_remove"
                 app:backgroundTint="@color/color_delete"
                 app:layout_constraintBottom_toBottomOf="@+id/btnEdit"
@@ -57,12 +57,12 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnEdit"
+                style="@style/ButtonTaskTheme"
                 android:layout_width="wrap_content"
                 android:layout_marginHorizontal="16dp"
-                android:text="@string/btn_edit"
                 android:layout_marginTop="32dp"
                 android:layout_marginBottom="16dp"
-                style="@style/ButtonTaskTheme"
+                android:text="@string/btn_edit"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/btnDetails"
                 app:layout_constraintHorizontal_bias="0.5"
@@ -72,8 +72,8 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnDetails"
-                android:layout_width="wrap_content"
                 style="@style/ButtonTaskTheme"
+                android:layout_width="wrap_content"
                 android:text="@string/btn_details"
                 app:backgroundTint="@color/color_details"
                 app:layout_constraintBottom_toBottomOf="@+id/btnEdit"
@@ -83,9 +83,9 @@
                 app:layout_constraintTop_toTopOf="@+id/btnEdit" />
 
             <ImageButton
-                android:id="@+id/btnBack"
+                android:id="@+id/btnNext"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:background="@android:color/transparent"
                 android:src="@drawable/ic_arrow_forward_24"
                 app:layout_constraintBottom_toBottomOf="@+id/btnEdit"

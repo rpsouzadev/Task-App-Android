@@ -34,7 +34,7 @@ class DoingFragment : Fragment() {
     }
 
     private fun initRecyclerView(taskList: List<Task>) {
-        taskAdapter = TaskAdapter(taskList)
+        taskAdapter = TaskAdapter(requireContext(), taskList)
 
         binding.rvTasks.layoutManager = LinearLayoutManager(requireContext())
         binding.rvTasks.setHasFixedSize(true)
@@ -43,11 +43,11 @@ class DoingFragment : Fragment() {
 
     private fun getTasks(): List<Task> {
         return listOf(
-            Task("1", "Criar nova tela do app", Status.TODO),
-            Task("2", "Criar nova tela do app", Status.TODO),
-            Task("3", "Criar nova tela do app", Status.TODO),
-            Task("4", "Criar nova tela do app", Status.TODO),
-            Task("5", "Criar nova tela do app", Status.TODO)
+            Task("1", "Criar nova tela do app", Status.DOING),
+            Task("2", "Criar nova tela do app", Status.DOING),
+            Task("3", "Criar nova tela do app", Status.DOING),
+            Task("4", "Criar nova tela do app", Status.DOING),
+            Task("5", "Criar nova tela do app", Status.DOING)
         )
     }
 
