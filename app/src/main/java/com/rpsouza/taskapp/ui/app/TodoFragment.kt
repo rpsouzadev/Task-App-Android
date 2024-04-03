@@ -15,91 +15,96 @@ import com.rpsouza.taskapp.databinding.FragmentTodoBinding
 import com.rpsouza.taskapp.ui.adapter.TaskAdapter
 
 class TodoFragment : Fragment() {
-    private var _binding: FragmentTodoBinding? = null
-    private val binding get() = _binding!!
+  private var _binding: FragmentTodoBinding? = null
+  private val binding get() = _binding!!
 
-    private lateinit var taskAdapter: TaskAdapter
+  private lateinit var taskAdapter: TaskAdapter
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentTodoBinding.inflate(inflater, container, false)
-        return binding.root
+  override fun onCreateView(
+    inflater: LayoutInflater,
+    container: ViewGroup?,
+    savedInstanceState: Bundle?
+  ): View {
+    _binding = FragmentTodoBinding.inflate(inflater, container, false)
+    return binding.root
+  }
+
+  override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    super.onViewCreated(view, savedInstanceState)
+
+    initListener()
+    initRecyclerView()
+    getTasks()
+  }
+
+  private fun initListener() {
+    binding.floatingActionButton.setOnClickListener {
+      findNavController().navigate(R.id.action_homeFragment_to_formTaskFragment)
+    }
+  }
+
+  private fun initRecyclerView() {
+    taskAdapter = TaskAdapter(requireContext()) { task, option ->
+      optionSelected(task, option)
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        initListener()
-        initRecyclerView(getTasks())
+    with(binding.rvTasks) {
+      layoutManager = LinearLayoutManager(requireContext())
+      setHasFixedSize(true)
+      adapter = taskAdapter
     }
+  }
 
-    private fun initListener() {
-        binding.floatingActionButton.setOnClickListener {
-            findNavController().navigate(R.id.action_homeFragment_to_formTaskFragment)
-        }
+  private fun optionSelected(task: Task, option: Int) {
+    when (option) {
+      TaskAdapter.SELECT_DETAILS -> {
+        Toast.makeText(
+          requireContext(),
+          "Detalhes da task: ${task.id}",
+          Toast.LENGTH_SHORT
+        ).show()
+      }
+
+      TaskAdapter.SELECT_EDIT -> {
+        Toast.makeText(
+          requireContext(),
+          "Editar task: ${task.id}",
+          Toast.LENGTH_SHORT
+        ).show()
+      }
+
+      TaskAdapter.SELECT_REMOVE -> {
+        Toast.makeText(
+          requireContext(),
+          "Remover task: ${task.id}",
+          Toast.LENGTH_SHORT
+        ).show()
+      }
+
+      TaskAdapter.SELECT_NEXT -> {
+        Toast.makeText(
+          requireContext(),
+          "Avançar task: ${task.id}",
+          Toast.LENGTH_SHORT
+        ).show()
+      }
     }
+  }
 
-    private fun initRecyclerView(taskList: List<Task>) {
-        taskAdapter = TaskAdapter(requireContext(), taskList) { task, option ->
-            optionSelected(task, option)
-        }
+  private fun getTasks() {
+    val taskList = listOf(
+      Task("1", "Criar nova tela do app", Status.TODO),
+      Task("2", "Criar nova tela do app", Status.TODO),
+      Task("3", "Criar nova tela do app", Status.TODO),
+      Task("4", "Criar nova tela do app", Status.TODO),
+      Task("5", "Criar nova tela do app", Status.TODO)
+    )
 
-        binding.rvTasks.layoutManager = LinearLayoutManager(requireContext())
-        binding.rvTasks.setHasFixedSize(true)
-        binding.rvTasks.adapter = taskAdapter
-    }
+    taskAdapter.submitList(taskList)
+  }
 
-    private fun optionSelected(task: Task, option: Int) {
-        when (option) {
-            TaskAdapter.SELECT_DETAILS -> {
-                Toast.makeText(
-                    requireContext(),
-                    "Detalhes da task: ${task.id}",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-
-            TaskAdapter.SELECT_EDIT -> {
-                Toast.makeText(
-                    requireContext(),
-                    "Editar task: ${task.id}",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-
-            TaskAdapter.SELECT_REMOVE -> {
-                Toast.makeText(
-                    requireContext(),
-                    "Remover task: ${task.id}",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-
-            TaskAdapter.SELECT_NEXT -> {
-                Toast.makeText(
-                    requireContext(),
-                    "Avançar task: ${task.id}",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-        }
-    }
-
-    private fun getTasks(): List<Task> {
-        return listOf(
-            Task("1", "Criar nova tela do app", Status.TODO),
-            Task("2", "Criar nova tela do app", Status.TODO),
-            Task("3", "Criar nova tela do app", Status.TODO),
-            Task("4", "Criar nova tela do app", Status.TODO),
-            Task("5", "Criar nova tela do app", Status.TODO)
-        )
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
+  override fun onDestroyView() {
+    super.onDestroyView()
+    _binding = null
+  }
 }
