@@ -21,6 +21,10 @@
     <string name="text_button_dialog_confirm_log_out">Confirmar</string>
     <string name="text_message_dialog_confirm_log_out">Para sair aperte no botão abaixo para confirmar</string>
 
+    <!--    Recover Fragment-->
+    <string name="text_message_recover_account">Pronto, enviamos um link de recuperação para seu email</string>
+
+
     <!--    Form Task Fragment-->
     <string name="description_empty_form_task_fragment">Digite sua tarefa.</string>
     <string name="btn_Login">Entrar</string>
