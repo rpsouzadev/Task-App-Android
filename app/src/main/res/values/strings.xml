@@ -15,6 +15,7 @@
     <string name="password_text">Senha</string>
     <string name="password_empty">Digite a senha</string>
     <string name="password_hint">Digite sua senha</string>
+    <string name="error_generic">Houve um erro, tente novamente mais tarde.</string>
 
     <!--    Home Fragment-->
     <string name="text_title_dialog_confirm_log_out">Deseja sair da sua conta?</string>
@@ -27,6 +28,7 @@
 
     <!--    Form Task Fragment-->
     <string name="description_empty_form_task_fragment">Digite sua tarefa.</string>
+    <string name="text_save_sucess_form_task_fragment">Tarefa criada com sucesso!</string>
     <string name="btn_Login">Entrar</string>
     <string name="create_account">Criar conta</string>
     <string name="forgot_password">Esqueceu a senha?</string>
@@ -46,4 +48,5 @@
     <string name="btn_details">Detalhes</string>
     <string name="move_next_status">Mover para o proximo status</string>
     <string name="move_previous_status">Voltar para o status anterio</string>
+    <string name="new_task">Nova tarefa</string>
 </resources>
