@@ -1,18 +1,18 @@
 package com.rpsouza.taskapp.ui.app
 
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.tabs.TabLayoutMediator
+import com.google.firebase.Firebase
+import com.google.firebase.auth.auth
 import com.rpsouza.taskapp.R
 import com.rpsouza.taskapp.databinding.FragmentHomeBinding
-import com.rpsouza.taskapp.databinding.FragmentSplashBinding
 import com.rpsouza.taskapp.ui.adapter.ViewPagerAdapter
+import com.rpsouza.taskapp.utils.showBottomSheet
 
 class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
@@ -31,6 +31,21 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         initTabs()
+        initListeners()
+    }
+
+    private fun initListeners() {
+        binding.btnLogOut.setOnClickListener {
+            showBottomSheet(
+                titleButton = R.string.text_button_dialog_confirm_log_out,
+                titleDialog = R.string.text_title_dialog_confirm_log_out,
+                message = getString(R.string.text_message_dialog_confirm_log_out),
+                onClick = {
+                    Firebase.auth.signOut()
+                    findNavController().navigate(R.id.action_homeFragment_to_authentication)
+                }
+            )
+        }
     }
 
     private fun initTabs() {
@@ -47,7 +62,6 @@ class HomeFragment : Fragment() {
             tab.text = getString(pageAdapter.getTitle(position))
         }.attach()
     }
-
 
     override fun onDestroyView() {
         super.onDestroyView()
