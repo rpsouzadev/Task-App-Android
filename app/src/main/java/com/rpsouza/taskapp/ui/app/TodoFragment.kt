@@ -22,6 +22,7 @@ import com.rpsouza.taskapp.data.model.Status
 import com.rpsouza.taskapp.data.model.Task
 import com.rpsouza.taskapp.databinding.FragmentTodoBinding
 import com.rpsouza.taskapp.ui.adapter.TaskAdapter
+import com.rpsouza.taskapp.utils.showBottomSheet
 
 class TodoFragment : Fragment() {
   private var _binding: FragmentTodoBinding? = null
@@ -89,11 +90,11 @@ class TodoFragment : Fragment() {
       }
 
       TaskAdapter.SELECT_REMOVE -> {
-        Toast.makeText(
-          requireContext(),
-          "Remover task: ${task.id}",
-          Toast.LENGTH_SHORT
-        ).show()
+        showBottomSheet(
+          R.string.text_title_dialog_delete,
+          R.string.text_button_dialog_confirm,
+          getString(R.string.text_message_dialog_delete)
+        ) { deleteTask(task) }
       }
 
       TaskAdapter.SELECT_NEXT -> {
@@ -123,6 +124,7 @@ class TodoFragment : Fragment() {
           binding.progressBar.isVisible = false
           listEmpty(taskList)
 
+          taskList.reverse()
           taskAdapter.submitList(taskList)
         }
 
@@ -130,6 +132,25 @@ class TodoFragment : Fragment() {
           Toast.makeText(requireContext(), R.string.error_generic, Toast.LENGTH_SHORT).show()
         }
       })
+  }
+
+  private fun deleteTask(task: Task) {
+    reference
+      .child("tasks")
+      .child(auth.currentUser?.uid ?: "")
+      .child(task.id)
+      .removeValue()
+      .addOnCompleteListener { result ->
+        if (result.isSuccessful) {
+          Toast.makeText(
+            requireContext(),
+            R.string.text_remove_task_successful,
+            Toast.LENGTH_SHORT
+          ).show()
+        } else {
+          Toast.makeText(requireContext(), R.string.error_generic, Toast.LENGTH_SHORT).show()
+        }
+      }
   }
 
   private fun listEmpty(taskList: List<Task>) {
