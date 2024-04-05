@@ -4,22 +4,18 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.google.firebase.Firebase
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.auth
 import com.rpsouza.taskapp.R
 import com.rpsouza.taskapp.databinding.FragmentRegisterBinding
+import com.rpsouza.taskapp.utils.FirebaseHelper
 import com.rpsouza.taskapp.utils.initToolbar
 import com.rpsouza.taskapp.utils.showBottomSheet
 
 class RegisterFragment : Fragment() {
     private var _binding: FragmentRegisterBinding? = null
     private val binding get() = _binding!!
-    private lateinit var auth: FirebaseAuth
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -33,7 +29,6 @@ class RegisterFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initToolbar(binding.toolbar)
-        auth = Firebase.auth
         initListeners()
     }
 
@@ -60,16 +55,18 @@ class RegisterFragment : Fragment() {
     }
 
     private fun registerUser(email: String, password: String) {
-        auth.createUserWithEmailAndPassword(email, password)
+        FirebaseHelper.getAuth().createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     findNavController().navigate(R.id.action_global_homeFragment)
                 } else {
-                    Toast.makeText(
-                        requireContext(),
-                        task.exception?.message,
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    showBottomSheet(
+                        message = getString(
+                            FirebaseHelper.validError(
+                                task.exception?.message.toString()
+                            )
+                        )
+                    )
                     binding.progressBar.isVisible = false
                 }
             }

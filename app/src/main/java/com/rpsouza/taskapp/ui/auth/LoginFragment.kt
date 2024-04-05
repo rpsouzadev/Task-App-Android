@@ -4,90 +4,86 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.google.firebase.Firebase
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.auth
 import com.rpsouza.taskapp.R
 import com.rpsouza.taskapp.databinding.FragmentLoginBinding
+import com.rpsouza.taskapp.utils.FirebaseHelper
 import com.rpsouza.taskapp.utils.showBottomSheet
 
 class LoginFragment : Fragment() {
-    private var _binding: FragmentLoginBinding? = null
-    private val binding get() = _binding!!
-    private lateinit var auth: FirebaseAuth
+  private var _binding: FragmentLoginBinding? = null
+  private val binding get() = _binding!!
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentLoginBinding.inflate(inflater, container, false)
-        return binding.root
+  override fun onCreateView(
+    inflater: LayoutInflater,
+    container: ViewGroup?,
+    savedInstanceState: Bundle?
+  ): View {
+    _binding = FragmentLoginBinding.inflate(inflater, container, false)
+    return binding.root
+  }
+
+  override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    super.onViewCreated(view, savedInstanceState)
+
+    initListeners()
+  }
+
+  private fun initListeners() {
+    binding.btnRegister.setOnClickListener {
+      findNavController()
+        .navigate(R.id.action_loginFragment_to_registerFragment)
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        auth = Firebase.auth
-
-        initListeners()
+    binding.btnRecover.setOnClickListener {
+      findNavController()
+        .navigate(R.id.action_loginFragment_to_recoverAccountFragment)
     }
 
-    private fun initListeners() {
-        binding.btnRegister.setOnClickListener {
-            findNavController()
-                .navigate(R.id.action_loginFragment_to_registerFragment)
-        }
-
-        binding.btnRecover.setOnClickListener {
-            findNavController()
-                .navigate(R.id.action_loginFragment_to_recoverAccountFragment)
-        }
-
-        binding.btnLogin.setOnClickListener {
-            validateData()
-        }
+    binding.btnLogin.setOnClickListener {
+      validateData()
     }
+  }
 
-    private fun validateData() {
-        val email = binding.editEmail.text.toString().trim()
-        val password = binding.editPassword.text.toString().trim()
+  private fun validateData() {
+    val email = binding.editEmail.text.toString().trim()
+    val password = binding.editPassword.text.toString().trim()
 
-        if (email.isNotEmpty()) {
-            if (password.isNotEmpty()) {
-                binding.progressBar.isVisible = true
-                handleLogin(email, password)
-            } else {
-                showBottomSheet(message = getString(R.string.password_empty))
-            }
+    if (email.isNotEmpty()) {
+      if (password.isNotEmpty()) {
+        binding.progressBar.isVisible = true
+        handleLogin(email, password)
+      } else {
+        showBottomSheet(message = getString(R.string.password_empty))
+      }
+    } else {
+      showBottomSheet(message = getString(R.string.email_empty))
+    }
+  }
+
+  private fun handleLogin(email: String, password: String) {
+    FirebaseHelper.getAuth().signInWithEmailAndPassword(email, password)
+      .addOnCompleteListener { task ->
+        if (task.isSuccessful) {
+          findNavController().navigate(R.id.action_global_homeFragment)
         } else {
-            showBottomSheet(message = getString(R.string.email_empty))
+          binding.progressBar.isVisible = false
+
+          showBottomSheet(
+              message = getString(
+                  FirebaseHelper.validError(
+                      task.exception?.message.toString()
+                  )
+              )
+          )
         }
-    }
+      }
+  }
 
-    private fun handleLogin(email: String, password: String) {
-        auth.signInWithEmailAndPassword(email, password)
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    findNavController().navigate(R.id.action_global_homeFragment)
-                } else {
-                    Toast.makeText(
-                        requireContext(),
-                        task.exception?.message,
-                        Toast.LENGTH_SHORT,
-                    ).show()
-
-                    binding.progressBar.isVisible = false
-                }
-            }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
+  override fun onDestroyView() {
+    super.onDestroyView()
+    _binding = null
+  }
 }

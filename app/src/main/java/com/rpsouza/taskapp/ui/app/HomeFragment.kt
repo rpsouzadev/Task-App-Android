@@ -7,11 +7,10 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.tabs.TabLayoutMediator
-import com.google.firebase.Firebase
-import com.google.firebase.auth.auth
 import com.rpsouza.taskapp.R
 import com.rpsouza.taskapp.databinding.FragmentHomeBinding
 import com.rpsouza.taskapp.ui.adapter.ViewPagerAdapter
+import com.rpsouza.taskapp.utils.FirebaseHelper
 import com.rpsouza.taskapp.utils.showBottomSheet
 
 class HomeFragment : Fragment() {
@@ -41,7 +40,7 @@ class HomeFragment : Fragment() {
                 titleDialog = R.string.text_title_dialog_confirm_log_out,
                 message = getString(R.string.text_message_dialog_confirm_log_out),
                 onClick = {
-                    Firebase.auth.signOut()
+                    FirebaseHelper.getAuth().signOut()
                     findNavController().navigate(R.id.action_homeFragment_to_authentication)
                 }
             )

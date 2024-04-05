@@ -10,15 +10,11 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.google.firebase.Firebase
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.auth
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.database
 import com.rpsouza.taskapp.R
 import com.rpsouza.taskapp.data.model.Status
 import com.rpsouza.taskapp.data.model.Task
 import com.rpsouza.taskapp.databinding.FragmentFormTaskBinding
+import com.rpsouza.taskapp.utils.FirebaseHelper
 import com.rpsouza.taskapp.utils.initToolbar
 import com.rpsouza.taskapp.utils.showBottomSheet
 
@@ -31,9 +27,6 @@ class FormTaskFragment : Fragment() {
   private var newTask: Boolean = true
 
   private val args: FormTaskFragmentArgs by navArgs()
-
-  private lateinit var reference: DatabaseReference
-  private lateinit var auth: FirebaseAuth
 
   private val viewModel: TaskViewModel by activityViewModels()
 
@@ -50,8 +43,6 @@ class FormTaskFragment : Fragment() {
     super.onViewCreated(view, savedInstanceState)
     initToolbar(binding.toolbar)
 
-    reference = Firebase.database.reference
-    auth = Firebase.auth
 
     getArgs()
     initListeners()
@@ -100,11 +91,7 @@ class FormTaskFragment : Fragment() {
     if (description.isNotEmpty()) {
       binding.progressBar.isVisible = true
 
-      if (newTask) {
-        task = Task()
-        task.id = reference.database.reference.push().key ?: ""
-      }
-
+      if (newTask) task = Task()
       task.description = description
       task.status = status
 
@@ -115,9 +102,9 @@ class FormTaskFragment : Fragment() {
   }
 
   private fun saveTask() {
-    reference
+    FirebaseHelper.getDatabase()
       .child("tasks")
-      .child(auth.currentUser?.uid ?: "")
+      .child(FirebaseHelper.getIdUser())
       .child(task.id)
       .setValue(task).addOnCompleteListener { result ->
         if (result.isSuccessful) {
@@ -147,7 +134,6 @@ class FormTaskFragment : Fragment() {
 
       }
   }
-
 
   override fun onDestroyView() {
     super.onDestroyView()

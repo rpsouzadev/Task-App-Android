@@ -4,21 +4,17 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import com.google.firebase.Firebase
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.auth
 import com.rpsouza.taskapp.R
 import com.rpsouza.taskapp.databinding.FragmentRecoverAccountBinding
+import com.rpsouza.taskapp.utils.FirebaseHelper
 import com.rpsouza.taskapp.utils.initToolbar
 import com.rpsouza.taskapp.utils.showBottomSheet
 
 class RecoverAccountFragment : Fragment() {
     private var _binding: FragmentRecoverAccountBinding? = null
     private val binding get() = _binding!!
-    private lateinit var auth: FirebaseAuth
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -31,8 +27,6 @@ class RecoverAccountFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        auth = Firebase.auth
 
         initToolbar(binding.toolbar)
         initListeners()
@@ -56,18 +50,20 @@ class RecoverAccountFragment : Fragment() {
     }
 
     private fun handleRecoverAccountUser(email: String) {
-        auth.sendPasswordResetEmail(email)
+        FirebaseHelper.getAuth().sendPasswordResetEmail(email)
             .addOnCompleteListener { task ->
                 binding.progressBar.isVisible = false
 
                 if (task.isSuccessful) {
                     showBottomSheet(message = getString(R.string.text_message_recover_account))
                 } else {
-                    Toast.makeText(
-                        requireContext(),
-                        task.exception?.message,
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    showBottomSheet(
+                        message = getString(
+                            FirebaseHelper.validError(
+                                task.exception?.message.toString()
+                            )
+                        )
+                    )
                 }
             }
     }
