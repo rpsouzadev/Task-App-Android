@@ -49,4 +49,6 @@
     <string name="move_next_status">Mover para o proximo status</string>
     <string name="move_previous_status">Voltar para o status anterio</string>
     <string name="new_task">Nova tarefa</string>
+    <string name="text_list_task_empty">Nenhuma tarefa cadastrada.</string>
+    <string name="text_list_task_loading">Aguarde estamos cerregando as tarefas.</string>
 </resources>

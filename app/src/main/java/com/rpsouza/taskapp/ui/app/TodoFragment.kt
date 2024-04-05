@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,6 +18,7 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.database
 import com.rpsouza.taskapp.R
+import com.rpsouza.taskapp.data.model.Status
 import com.rpsouza.taskapp.data.model.Task
 import com.rpsouza.taskapp.databinding.FragmentTodoBinding
 import com.rpsouza.taskapp.ui.adapter.TaskAdapter
@@ -113,8 +115,14 @@ class TodoFragment : Fragment() {
           val taskList = mutableListOf<Task>()
           for (ds in snapshot.children) {
             val task = ds.getValue(Task::class.java) as Task
-            taskList.add(task)
+
+            if (task.status == Status.TODO) {
+              taskList.add(task)
+            }
           }
+          binding.progressBar.isVisible = false
+          listEmpty(taskList)
+
           taskAdapter.submitList(taskList)
         }
 
@@ -122,6 +130,14 @@ class TodoFragment : Fragment() {
           Toast.makeText(requireContext(), R.string.error_generic, Toast.LENGTH_SHORT).show()
         }
       })
+  }
+
+  private fun listEmpty(taskList: List<Task>) {
+    binding.textInfo.text = if (taskList.isEmpty()) {
+      getString(R.string.text_list_task_empty)
+    } else {
+      ""
+    }
   }
 
   override fun onDestroyView() {
