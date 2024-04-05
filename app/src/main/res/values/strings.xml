@@ -31,7 +31,9 @@
 
     <!--    Form Task Fragment-->
     <string name="description_empty_form_task_fragment">Digite sua tarefa.</string>
+    <string name="toolbar_title_edit_form_task_fragment">Atualizar tarefa.</string>
     <string name="text_save_sucess_form_task_fragment">Tarefa criada com sucesso!</string>
+    <string name="text_update_sucess_form_task_fragment">Tarefa atualizada com sucesso!</string>
     <string name="btn_Login">Entrar</string>
     <string name="create_account">Criar conta</string>
     <string name="forgot_password">Esqueceu a senha?</string>

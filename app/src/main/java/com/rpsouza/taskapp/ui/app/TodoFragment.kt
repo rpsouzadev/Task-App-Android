@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.Firebase
@@ -33,6 +34,8 @@ class TodoFragment : Fragment() {
   private lateinit var reference: DatabaseReference
   private lateinit var auth: FirebaseAuth
 
+  private val viewModel: TaskViewModel by activityViewModels()
+
   override fun onCreateView(
     inflater: LayoutInflater,
     container: ViewGroup?,
@@ -55,7 +58,27 @@ class TodoFragment : Fragment() {
 
   private fun initListener() {
     binding.floatingActionButton.setOnClickListener {
-      findNavController().navigate(R.id.action_homeFragment_to_formTaskFragment)
+      val action = HomeFragmentDirections.actionHomeFragmentToFormTaskFragment(null)
+      findNavController().navigate(action)
+    }
+
+    observeViewModel()
+  }
+
+  private fun observeViewModel() {
+    viewModel.taskUpdate.observe(viewLifecycleOwner) { updateTask ->
+      if (updateTask.status == Status.TODO) {
+        val oldList = taskAdapter.currentList
+
+        val newList = oldList.toMutableList().apply {
+          find { it.id == updateTask.id }?.description = updateTask.description
+        }
+
+        val position = newList.indexOfFirst { it.id == updateTask.id }
+
+        taskAdapter.submitList(newList)
+        taskAdapter.notifyItemChanged(position)
+      }
     }
   }
 
@@ -82,11 +105,8 @@ class TodoFragment : Fragment() {
       }
 
       TaskAdapter.SELECT_EDIT -> {
-        Toast.makeText(
-          requireContext(),
-          "Editar task: ${task.id}",
-          Toast.LENGTH_SHORT
-        ).show()
+        val action = HomeFragmentDirections.actionHomeFragmentToFormTaskFragment(task)
+        findNavController().navigate(action)
       }
 
       TaskAdapter.SELECT_REMOVE -> {
