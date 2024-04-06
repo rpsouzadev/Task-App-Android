@@ -5,15 +5,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
-import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.rpsouza.taskapp.R
 import com.rpsouza.taskapp.databinding.FragmentRegisterBinding
+import com.rpsouza.taskapp.ui.BaseFragment
 import com.rpsouza.taskapp.utils.FirebaseHelper
 import com.rpsouza.taskapp.utils.initToolbar
 import com.rpsouza.taskapp.utils.showBottomSheet
 
-class RegisterFragment : Fragment() {
+class RegisterFragment : BaseFragment() {
     private var _binding: FragmentRegisterBinding? = null
     private val binding get() = _binding!!
 
@@ -44,6 +44,7 @@ class RegisterFragment : Fragment() {
 
         if (email.isNotEmpty()) {
             if (password.isNotEmpty()) {
+                hideKeyboard()
                 binding.progressBar.isVisible = true
                 registerUser(email, password)
             } else {

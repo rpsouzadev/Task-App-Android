@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.view.isVisible
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -14,11 +13,11 @@ import com.rpsouza.taskapp.R
 import com.rpsouza.taskapp.data.model.Status
 import com.rpsouza.taskapp.data.model.Task
 import com.rpsouza.taskapp.databinding.FragmentFormTaskBinding
-import com.rpsouza.taskapp.utils.FirebaseHelper
+import com.rpsouza.taskapp.ui.BaseFragment
 import com.rpsouza.taskapp.utils.initToolbar
 import com.rpsouza.taskapp.utils.showBottomSheet
 
-class FormTaskFragment : Fragment() {
+class FormTaskFragment : BaseFragment() {
   private var _binding: FragmentFormTaskBinding? = null
   private val binding get() = _binding!!
 
@@ -74,7 +73,10 @@ class FormTaskFragment : Fragment() {
   }
 
   private fun initListeners() {
-    binding.btnSalveTask.setOnClickListener { validateData() }
+    binding.btnSalveTask.setOnClickListener {
+      observeViewModel()
+      validateData()
+    }
 
     binding.rgStatus.setOnCheckedChangeListener { _, checkedId ->
       status = when (checkedId) {
@@ -89,50 +91,43 @@ class FormTaskFragment : Fragment() {
     val description = binding.editDescription.text.toString().trim()
 
     if (description.isNotEmpty()) {
+      hideKeyboard()
       binding.progressBar.isVisible = true
 
       if (newTask) task = Task()
       task.description = description
       task.status = status
 
-      saveTask()
+      if (newTask) {
+        viewModel.insertTask(task)
+      } else {
+        viewModel.updateTask(task)
+      }
     } else {
       showBottomSheet(message = getString(R.string.description_empty_form_task_fragment))
     }
   }
 
-  private fun saveTask() {
-    FirebaseHelper.getDatabase()
-      .child("tasks")
-      .child(FirebaseHelper.getIdUser())
-      .child(task.id)
-      .setValue(task).addOnCompleteListener { result ->
-        if (result.isSuccessful) {
-          if (newTask) {
-            Toast.makeText(
-              requireContext(),
-              R.string.text_save_sucess_form_task_fragment,
-              Toast.LENGTH_SHORT
-            ).show()
+  private fun observeViewModel() {
+    viewModel.taskInsert.observe(viewLifecycleOwner) {
+      Toast.makeText(
+        requireContext(),
+        R.string.text_save_sucess_form_task_fragment,
+        Toast.LENGTH_SHORT
+      ).show()
 
-            findNavController().popBackStack()
-          } else {
-            viewModel.setUpdateTask(task)
-            binding.progressBar.isVisible = false
-            binding.editDescription.setText("")
+      findNavController().popBackStack()
+    }
 
-            Toast.makeText(
-              requireContext(),
-              R.string.text_update_sucess_form_task_fragment,
-              Toast.LENGTH_SHORT
-            ).show()
-          }
-        } else {
-          showBottomSheet(message = getString(R.string.error_generic))
-          binding.progressBar.isVisible = false
-        }
+    viewModel.taskUpdate.observe(viewLifecycleOwner) {
+      binding.progressBar.isVisible = false
 
-      }
+      Toast.makeText(
+        requireContext(),
+        R.string.text_update_sucess_form_task_fragment,
+        Toast.LENGTH_SHORT
+      ).show()
+    }
   }
 
   override fun onDestroyView() {

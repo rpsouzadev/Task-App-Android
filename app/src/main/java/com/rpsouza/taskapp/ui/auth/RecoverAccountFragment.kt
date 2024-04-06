@@ -5,14 +5,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
-import androidx.fragment.app.Fragment
 import com.rpsouza.taskapp.R
 import com.rpsouza.taskapp.databinding.FragmentRecoverAccountBinding
+import com.rpsouza.taskapp.ui.BaseFragment
 import com.rpsouza.taskapp.utils.FirebaseHelper
 import com.rpsouza.taskapp.utils.initToolbar
 import com.rpsouza.taskapp.utils.showBottomSheet
 
-class RecoverAccountFragment : Fragment() {
+class RecoverAccountFragment : BaseFragment() {
     private var _binding: FragmentRecoverAccountBinding? = null
     private val binding get() = _binding!!
 
@@ -42,6 +42,7 @@ class RecoverAccountFragment : Fragment() {
         val email = binding.editEmail.text.toString().trim()
 
         if (email.isNotEmpty()) {
+            hideKeyboard()
             binding.progressBar.isVisible = true
             handleRecoverAccountUser(email)
         } else {
