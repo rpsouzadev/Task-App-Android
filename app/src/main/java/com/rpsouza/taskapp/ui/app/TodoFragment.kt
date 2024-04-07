@@ -42,7 +42,7 @@ class TodoFragment : Fragment() {
     initListener()
     initRecyclerView()
     observeViewModel()
-    viewModel.getTasks(Status.TODO)
+    viewModel.getTasks()
   }
 
   private fun initListener() {
@@ -61,8 +61,11 @@ class TodoFragment : Fragment() {
 
         is StateView.OnSuccess -> {
           binding.progressBar.isVisible = false
-          listEmpty(stateView.data ?: emptyList())
-          taskAdapter.submitList(stateView.data)
+
+          val taskList = stateView.data?.filter { it.status == Status.TODO }
+
+          listEmpty(taskList ?: emptyList())
+          taskAdapter.submitList(taskList)
         }
 
         is StateView.OnError -> {
@@ -119,6 +122,11 @@ class TodoFragment : Fragment() {
 
           val oldList = taskAdapter.currentList
           val newList = oldList.toMutableList().apply {
+            if (!oldList.contains(stateView.data) && stateView.data?.status == Status.TODO) {
+              add(0, stateView.data)
+              setPositionRecyclerView()
+            }
+
             if (stateView.data?.status == Status.TODO) {
               find { it.id == stateView.data.id }?.description = stateView.data.description
             } else {
