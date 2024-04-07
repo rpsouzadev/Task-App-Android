@@ -97,6 +97,7 @@ class TodoFragment : Fragment() {
 
             taskAdapter.submitList(newList)
             setPositionRecyclerView()
+            listEmpty(newList)
           }
         }
 
@@ -138,6 +139,7 @@ class TodoFragment : Fragment() {
 
           taskAdapter.submitList(newList)
           taskAdapter.notifyItemChanged(position)
+          listEmpty(newList)
         }
 
         is StateView.OnError -> {
@@ -160,18 +162,21 @@ class TodoFragment : Fragment() {
         is StateView.OnSuccess -> {
           binding.progressBar.isVisible = false
 
-          Toast.makeText(
-            requireContext(),
-            R.string.text_remove_task_successful,
-            Toast.LENGTH_SHORT
-          ).show()
+          if (stateView.data?.status == Status.TODO) {
+            Toast.makeText(
+              requireContext(),
+              R.string.text_remove_task_successful,
+              Toast.LENGTH_SHORT
+            ).show()
 
-          val oldList = taskAdapter.currentList
-          val newList = oldList.toMutableList().apply {
-            remove(stateView.data)
+            val oldList = taskAdapter.currentList
+            val newList = oldList.toMutableList().apply {
+              remove(stateView.data)
+            }
+
+            taskAdapter.submitList(newList)
+            listEmpty(newList)
           }
-
-          taskAdapter.submitList(newList)
         }
 
         is StateView.OnError -> {

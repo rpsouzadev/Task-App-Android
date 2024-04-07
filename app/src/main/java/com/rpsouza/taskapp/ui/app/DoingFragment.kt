@@ -80,7 +80,7 @@ class DoingFragment : Fragment() {
         is StateView.OnSuccess -> {
           binding.progressBar.isVisible = false
 
-          if (stateView.data?.status == Status.DONE) {
+          if (stateView.data?.status == Status.DOING) {
             val oldList = taskAdapter.currentList
 
             val newList = oldList.toMutableList().apply {
@@ -89,6 +89,7 @@ class DoingFragment : Fragment() {
 
             taskAdapter.submitList(newList)
             setPositionRecyclerView()
+            listEmpty(newList)
           }
         }
 
@@ -131,6 +132,7 @@ class DoingFragment : Fragment() {
 
           taskAdapter.submitList(newList)
           taskAdapter.notifyItemChanged(position)
+          listEmpty(newList)
         }
 
         is StateView.OnError -> {
@@ -153,18 +155,21 @@ class DoingFragment : Fragment() {
         is StateView.OnSuccess -> {
           binding.progressBar.isVisible = false
 
-          Toast.makeText(
-            requireContext(),
-            R.string.text_remove_task_successful,
-            Toast.LENGTH_SHORT
-          ).show()
+          if (stateView.data?.status == Status.DOING) {
+            Toast.makeText(
+              requireContext(),
+              R.string.text_remove_task_successful,
+              Toast.LENGTH_SHORT
+            ).show()
 
-          val oldList = taskAdapter.currentList
-          val newList = oldList.toMutableList().apply {
-            remove(stateView.data)
+            val oldList = taskAdapter.currentList
+            val newList = oldList.toMutableList().apply {
+              remove(stateView.data)
+            }
+
+            taskAdapter.submitList(newList)
+            listEmpty(newList)
           }
-
-          taskAdapter.submitList(newList)
         }
 
         is StateView.OnError -> {
